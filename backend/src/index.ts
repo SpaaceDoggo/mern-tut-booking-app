@@ -43,6 +43,10 @@ app.use('/api/auth', userAuth);
 app.use('/api/user', userRoute);
 app.use('/api/my-hotels', userHotels);
 
+app.get("/{*any}", (req, res) => {
+  res.sendFile(path.join(dirname, "../../frontend/dist/index.html"));
+});
+
 
 app.listen(1000, () => {
   console.log("server is running");

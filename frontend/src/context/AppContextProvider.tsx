@@ -15,7 +15,7 @@ export default function AppContextProvider({
     setToast(toastMessage);
   }
 
-  const { isSuccess } = useQuery({
+  const { isSuccess, isLoading } = useQuery({
     queryKey: ["cookieValidation"],
     queryFn: apiClient.validateCookie,
     retry: false,
@@ -26,6 +26,7 @@ export default function AppContextProvider({
       value={{
         showToast,
         isLogin: isSuccess,
+        isAuthLoading: isLoading,
         userId,
         setUserId
       }}

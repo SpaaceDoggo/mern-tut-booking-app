@@ -1,14 +1,19 @@
 import { Link } from "react-router-dom";
 import { useAppContext } from "../context/AppContext";
-import { useEffect } from "react";
 import Logout from "./Logout";
 
 const Header = () => {
-  const { isLogin } = useAppContext();
+  const { isLogin, isAuthLoading } = useAppContext();
 
-  useEffect(() => {
-    console.log(isLogin);
-  }, [isLogin]);
+  if(isAuthLoading){
+    return(
+      <header className="bg-blue-700 p-6">
+        <div className="container mx-auto flex items-center justify-center">
+        </div>
+      </header>
+    )
+  }
+
   return (
     <header className="bg-blue-700 p-6">
       <div className="container mx-auto flex items-center justify-between">

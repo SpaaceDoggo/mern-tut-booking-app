@@ -10,6 +10,7 @@ type AppContext = {
     isLogin: boolean
     userId: string
     setUserId: (id:string) => void
+    isAuthLoading: boolean
 }
 
 export const AppContext = createContext<AppContext | undefined>(undefined);

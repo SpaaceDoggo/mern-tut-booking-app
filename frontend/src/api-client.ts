@@ -1,3 +1,4 @@
+import type { HotelFormData } from "./components/ManageHotelForms";
 import type { LoginForm } from "./pages/Login";
 import type { RegisterFormData } from "./pages/Register";
 
@@ -73,4 +74,18 @@ export const logout = async () => {
     if(!req.ok){
         throw new Error("Logout error");    
     }
+}
+
+export const addHotel = async (hotelData:FormData) => {
+    const req = await fetch(`${API_URL}/api/my-hotels`, {
+        method: 'POST',
+        credentials: 'include',
+        body:hotelData
+    })
+
+    if(!req.ok){
+        throw Error("Something went wrong creating a hotel. Please try again");
+    }
+
+    return req.json();
 }

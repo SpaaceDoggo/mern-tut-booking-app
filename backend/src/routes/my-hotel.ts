@@ -1,7 +1,8 @@
 import { Router, type Request, type Response } from "express";
 import multer from "multer";
 import cloudinary from "cloudinary";
-import Hotel, { type HotelType } from "../models/Hotels.js";
+import Hotel from "../models/Hotels.js";
+import type { HotelType } from "../shared/types.js";
 import verifyToken from "../middleware/auth.js";
 import { check, validationResult } from "express-validator";
 
@@ -91,5 +92,18 @@ router.post(
     }
   },
 );
+
+router.get('/get-hotels', verifyToken, async (req: Request, res: Response) => {
+  try {
+    const myHotels = await Hotel.find({userId: req.userId});
+    res.json(myHotels);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "SERVER ERROR"
+    })
+  }
+})
 
 export default router;

@@ -22,8 +22,9 @@ export type HotelFormData = {
 
 type Props = {
   saveData: (formData: FormData) => void;
-  isLoading: boolean;
+  isLoading: boolean
   isSuccess: boolean
+  data?: HotelFormData
 };
 
 const index = ({ saveData, isLoading, isSuccess }: Props) => {

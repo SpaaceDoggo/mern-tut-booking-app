@@ -5,13 +5,12 @@ import Logout from "./Logout";
 const Header = () => {
   const { isLogin, isAuthLoading } = useAppContext();
 
-  if(isAuthLoading){
-    return(
+  if (isAuthLoading) {
+    return (
       <header className="bg-blue-700 p-6">
-        <div className="container mx-auto flex items-center justify-center">
-        </div>
+        <div className="container mx-auto flex items-center justify-center"></div>
       </header>
-    )
+    );
   }
 
   return (
@@ -21,11 +20,15 @@ const Header = () => {
           MernHolidays.com
         </span>
         {isLogin ? (
-          <>
-            <Link to={"/idkk"}>My Bookings</Link>
-            <Link to={"/idkk2"}>My Hotels</Link>
+          <div className="space-x-8">
+            <Link to={"/idkk"} className="px-2 py-1 rounded-sm text-md font-bold text-white hover:bg-white hover:text-blue-700 transition-all duration-150">
+              My Bookings
+            </Link>
+            <Link to={"/my-hotels"} className="px-2 py-1 rounded-sm text-md font-bold text-white hover:bg-white hover:text-blue-700 transition-all duration-150">
+              My Hotels
+            </Link>
             <Logout />
-          </>
+          </div>
         ) : (
           <div className="space-x-5">
             <Link to={"/register"}>

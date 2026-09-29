@@ -1,67 +1,71 @@
-
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import Layout from './layouts/Layout'
-import Register from './pages/Register'
-import Login from './pages/Login'
-import { useAppContext } from './context/AppContext'
-import AddHotel from './pages/AddHotel'
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import Layout from "./layouts/Layout";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import { useAppContext } from "./context/AppContext";
+import AddHotel from "./pages/AddHotel";
+import { useEffect } from "react";
+import MyHotel from "./pages/MyHotel";
 
 function App() {
-  const {isLogin} = useAppContext();
+  const { isLogin, isAuthLoading } = useAppContext();
+
+  useEffect(() => {
+    console.log(isLogin);
+  }, [isLogin]);
+
+  if (isAuthLoading) {
+    return <div>Loading...</div>;
+  }
   return (
-   <BrowserRouter>
-     <Routes>
-      <Route 
-        path="/" 
-        element={
-          <Layout>
-            Home Page
-          </Layout>
-        } 
-      />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout>Home Page</Layout>} />
 
-      <Route
-        path='/search'
-        element={
-          <Layout>
-            Search
-          </Layout>
-        }
-      />
+        <Route path="/search" element={<Layout>Search</Layout>} />
 
-      <Route
-       path='/register'
-       element={
-        <Layout>
+        <Route
+          path="/register"
+          element={<Layout>{isLogin ? <Register /> : <Register />}</Layout>}
+        />
 
-          {isLogin ? <Register/> : <Register/>}
-        </Layout>
-       }
-      />
+        <Route
+          path="/sign-in"
+          element={
+            <Layout>
+              <Login />
+            </Layout>
+          }
+        />
 
-      <Route
-       path='/sign-in'
-       element={
-          <Layout>
-            <Login/>
-          </Layout>
-       }
-      />
+        <Route
+          path="/add-hotel"
+          element={
+            isLogin && (
+              <Layout>
+                <AddHotel />
+              </Layout>
+            )
+          }
+        />
 
-      <Route
-       path='/add-hotel'
-       element={
-        <Layout>
-          <AddHotel/>
-        </Layout>
-       }
-      />
+        <Route
+         path="/my-hotels"
+         element={
+          isLogin ? (
+            <Layout>
+              <MyHotel/>
+            </Layout>
+          ) : (
+            <Navigate to={'/'}/>
+          )
+         }
+        />
 
-      <Route path="*" element={<Navigate to={'/'}/>}/>
-
-     </Routes>
-   </BrowserRouter>
-  )
+        <Route path="*" element={<Navigate to={"/"} />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;

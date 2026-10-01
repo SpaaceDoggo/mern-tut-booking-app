@@ -37,6 +37,7 @@ const hotelSchema = new mongoose.Schema<HotelType>({
     },
     childCount: {
         type: Number, 
+        default: 0
     },
     facilities: [
         {

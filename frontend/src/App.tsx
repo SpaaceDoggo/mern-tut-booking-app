@@ -6,6 +6,7 @@ import { useAppContext } from "./context/AppContext";
 import AddHotel from "./pages/AddHotel";
 import { useEffect } from "react";
 import MyHotel from "./pages/MyHotel";
+import EditHotel from "./pages/EditHotel";
 
 function App() {
   const { isLogin, isAuthLoading } = useAppContext();
@@ -41,25 +42,40 @@ function App() {
         <Route
           path="/add-hotel"
           element={
-            isLogin && (
+            isLogin ? (
               <Layout>
                 <AddHotel />
               </Layout>
+            ) : (
+              <Navigate to={'/'}/>
             )
           }
         />
 
         <Route
-         path="/my-hotels"
-         element={
-          isLogin ? (
-            <Layout>
-              <MyHotel/>
-            </Layout>
-          ) : (
-            <Navigate to={'/'}/>
-          )
-         }
+          path="/my-hotels"
+          element={
+            isLogin ? (
+              <Layout>
+                <MyHotel />
+              </Layout>
+            ) : (
+              <Navigate to={"/"} />
+            )
+          }
+        />
+
+        <Route
+          path="/edit-hotel/:id"
+          element={
+            isLogin ? (
+              <Layout>
+                <EditHotel />
+              </Layout>
+            ) : (
+              <Navigate to={"/"} />
+            )
+          }
         />
 
         <Route path="*" element={<Navigate to={"/"} />} />

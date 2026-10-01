@@ -7,6 +7,7 @@ import ImageSection from "./ImageSection";
 import { useEffect } from "react";
 
 export type HotelFormData = {
+  _id: string
   name: string;
   city: string;
   country: string;
@@ -18,21 +19,30 @@ export type HotelFormData = {
   price: number;
   starRating: number;
   imageFiles: File[];
+  imageUrls?: string[]
 };
 
 type Props = {
   saveData: (formData: FormData) => void;
   isLoading: boolean
   isSuccess: boolean
-  data?: HotelFormData
+  hotel?: HotelFormData
 };
 
-const index = ({ saveData, isLoading, isSuccess }: Props) => {
+const index = ({ saveData, isLoading, isSuccess, hotel }: Props) => {
   const form = useForm<HotelFormData>();
+
+  useEffect(() => {
+    form.reset(hotel)
+  }, [hotel, form.reset])
 
   const onSubmit = form.handleSubmit((formDataJson) => {
     const formData = new FormData();
-    console.log(formDataJson);
+    
+    if(hotel){
+      formData.append('id', hotel._id);
+    }
+
     formData.append("name", formDataJson.name);
     formData.append("city", formDataJson.city);
     formData.append("country", formDataJson.country);
@@ -42,6 +52,14 @@ const index = ({ saveData, isLoading, isSuccess }: Props) => {
     formData.append("childCount", formDataJson.childCount.toString());
     formData.append("price", formDataJson.price.toString());
     formData.append("starRating", formDataJson.starRating.toString());
+
+    if(formDataJson.imageUrls) {
+      console.log('TRUEEE');
+      Array.from(formDataJson.imageUrls).forEach((image, i) => {
+      formData.append(`imageUrls[${i}]`, image);
+      console.log(image);
+    });
+    }
 
     formDataJson.facilities.forEach((facility, index) => {
       formData.append(`facilities[${index}]`, facility);
@@ -54,9 +72,6 @@ const index = ({ saveData, isLoading, isSuccess }: Props) => {
     saveData(formData);
   });
 
-  useEffect(() => {
-    form.reset();
-  }, [isSuccess, form.reset])
   return (
     <FormProvider {...form}>
       <form className="flex flex-col gap-7" onSubmit={onSubmit}>

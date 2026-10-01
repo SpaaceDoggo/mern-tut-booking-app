@@ -6,6 +6,7 @@ const GuestSection = () => {
     register,
     formState: { errors },
     watch,
+    setValue,
   } = useFormContext<HotelFormData>();
 
   return (
@@ -23,6 +24,7 @@ const GuestSection = () => {
                 }
               },
             })}
+            min={1}
             type="number"
             className="w-full bg-white rounded-sm px-2 py-1"
           />
@@ -36,8 +38,12 @@ const GuestSection = () => {
                 if (!val && !watch("adultCount")) {
                   return "This field is required";
                 }
+                if (!val) {
+                  setValue("childCount", 0);
+                }
               },
             })}
+            min={0}
             type="number"
             className="w-full bg-white rounded-sm px-2 py-1"
           />

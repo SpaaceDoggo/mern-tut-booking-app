@@ -1,6 +1,5 @@
 import { useFormContext } from "react-hook-form";
 import type { HotelFormData } from ".";
-import { useEffect } from "react";
 
 const ImageSection = () => {
   const {

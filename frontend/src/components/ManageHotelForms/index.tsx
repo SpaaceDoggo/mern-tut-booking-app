@@ -25,11 +25,10 @@ export type HotelFormData = {
 type Props = {
   saveData: (formData: FormData) => void;
   isLoading: boolean
-  isSuccess: boolean
   hotel?: HotelFormData
 };
 
-const index = ({ saveData, isLoading, isSuccess, hotel }: Props) => {
+const index = ({ saveData, isLoading, hotel }: Props) => {
   const form = useForm<HotelFormData>();
 
   useEffect(() => {

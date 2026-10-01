@@ -57,7 +57,6 @@ const EditHotel = () => {
   return (
     <ManageHotelForms
       isLoading={isPending}
-      isSuccess={isSuccess}
       saveData={modifyData}
       hotel={hotel}
     />

@@ -3,7 +3,6 @@ import * as apiClient from "../api-client";
 import { useParams } from "react-router-dom";
 import ManageHotelForms from "../components/ManageHotelForms";
 import { useEffect } from "react";
-import { Navigate } from "react-router";
 import { useAppContext } from "../context/AppContext";
 
 const EditHotel = () => {
@@ -11,7 +10,6 @@ const EditHotel = () => {
   const { showToast } = useAppContext();
   const {
     data: hotel,
-    isLoading,
     isSuccess,
   } = useQuery({
     queryKey: ["getMyHotel", id],

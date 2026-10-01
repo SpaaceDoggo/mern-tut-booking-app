@@ -6,7 +6,7 @@ import { useAppContext } from "../context/AppContext";
 const AddHotel = () => {
   const { showToast } = useAppContext();
 
-  const { mutate, isPending, isSuccess } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: apiClient.addHotel,
     onSuccess: () => {
       showToast({
@@ -31,7 +31,6 @@ const AddHotel = () => {
       <ManageHotelForms 
        saveData={handleSave} 
        isLoading={isPending} 
-       isSuccess={isSuccess}
       />
     </>
   );

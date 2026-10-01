@@ -10,7 +10,6 @@ const EditHotel = () => {
   const { showToast } = useAppContext();
   const {
     data: hotel,
-    isSuccess,
   } = useQuery({
     queryKey: ["getMyHotel", id],
     queryFn: () => apiClient.getHotel(id || ""),
@@ -24,7 +23,7 @@ const EditHotel = () => {
   const {
     mutate,
     isPending,
-    isSuccess: editSuccess,
+    isSuccess,
     isIdle,
 
   } = useMutation({
@@ -40,19 +39,19 @@ const EditHotel = () => {
 
   useEffect(() => {
     console.log(isIdle);
-    if (editSuccess && !isIdle) {
+    if (isSuccess && !isIdle) {
       showToast({
         message: "Successfully updated",
         type: "SUCCESS",
       });
-    }else if (!editSuccess && !isIdle && !isPending) {
+    }else if (!isSuccess && !isIdle && !isPending) {
       showToast({
         message: "Unsuccessful updated. Please try again",
         type: 'ERROR'
       })
     }
 
-  }, [editSuccess]);
+  }, [isSuccess]);
 
   return (
     <ManageHotelForms

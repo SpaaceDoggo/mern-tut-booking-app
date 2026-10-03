@@ -7,7 +7,7 @@ import ImageSection from "./ImageSection";
 import { useEffect } from "react";
 
 export type HotelFormData = {
-  _id: string
+  _id: string;
   name: string;
   city: string;
   country: string;
@@ -19,27 +19,33 @@ export type HotelFormData = {
   price: number;
   starRating: number;
   imageFiles: File[];
-  imageUrls?: string[]
+  imageUrls?: ImageFormat[];
+  deletedImgUrls?: string[];
+};
+
+export type ImageFormat = {
+  url: string;
+  publicId: string;
 };
 
 type Props = {
   saveData: (formData: FormData) => void;
-  isLoading: boolean
-  hotel?: HotelFormData
+  isLoading: boolean;
+  hotel?: HotelFormData;
 };
 
 const index = ({ saveData, isLoading, hotel }: Props) => {
   const form = useForm<HotelFormData>();
 
   useEffect(() => {
-    form.reset(hotel)
-  }, [hotel, form.reset])
+    form.reset(hotel);
+  }, [hotel, form.reset]);
 
   const onSubmit = form.handleSubmit((formDataJson) => {
     const formData = new FormData();
-    
-    if(hotel){
-      formData.append('id', hotel._id);
+
+    if (hotel) {
+      formData.append("id", hotel._id);
     }
 
     formData.append("name", formDataJson.name);
@@ -52,12 +58,16 @@ const index = ({ saveData, isLoading, hotel }: Props) => {
     formData.append("price", formDataJson.price.toString());
     formData.append("starRating", formDataJson.starRating.toString());
 
-    if(formDataJson.imageUrls) {
-      console.log('TRUEEE');
-      Array.from(formDataJson.imageUrls).forEach((image, i) => {
-      formData.append(`imageUrls[${i}]`, image);
-      console.log(image);
-    });
+    if (formDataJson.imageUrls) {
+      console.log("TRUEEE");
+      formData.append(`imageUrls`, JSON.stringify(formDataJson.imageUrls));
+    }
+
+    if (formDataJson.deletedImgUrls) {
+      console.log(formDataJson.deletedImgUrls);
+      formDataJson.deletedImgUrls.forEach((img, i) => {
+        formData.append(`deletedImgUrls[${i}]`, img);
+      });
     }
 
     formDataJson.facilities.forEach((facility, index) => {
@@ -68,6 +78,7 @@ const index = ({ saveData, isLoading, hotel }: Props) => {
       formData.append("imageFiles", image);
     });
 
+    console.log(formData);
     saveData(formData);
   });
 

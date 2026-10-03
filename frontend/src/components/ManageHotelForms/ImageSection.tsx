@@ -1,5 +1,6 @@
 import { useFormContext } from "react-hook-form";
 import type { HotelFormData } from ".";
+import { useEffect, useState } from "react";
 
 const ImageSection = () => {
   const {
@@ -9,18 +10,30 @@ const ImageSection = () => {
     setValue,
   } = useFormContext<HotelFormData>();
 
-  const existingImgUrls = watch('imageUrls');
-  
+  const existingImgUrls = watch("imageUrls");
+  const [deletedUrls, setDeletedUrls] = useState<string[]>([]);
+
   const handleDeleteBtn = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    imageUrl: string
+    imageUrl: string,
   ) => {
     event.preventDefault();
     setValue(
       "imageUrls",
-      existingImgUrls?.filter((url) => url !== imageUrl)
+      existingImgUrls?.filter((url) => url.url !== imageUrl),
     );
+    existingImgUrls?.forEach((url) => {
+      if (imageUrl === url.url) {
+        setDeletedUrls((prev) => [...prev, url.url]);
+      }
+    });
+
+    setValue("deletedImgUrls", deletedUrls);
   };
+
+  useEffect(() => {
+    setValue('deletedImgUrls', deletedUrls);
+  },[setValue, deletedUrls])
 
   return (
     <section className="flex flex-col gap-5">
@@ -32,11 +45,11 @@ const ImageSection = () => {
             {existingImgUrls?.map((imgUrl) => (
               <div className="group relative">
                 <img
-                  src={imgUrl}
+                  src={imgUrl.url}
                   className="h-70 w-70 md:h-100 md:w-100  resize-none object-cover rounded-sm"
                 />
                 <button
-                  onClick={(event) => handleDeleteBtn(event, imgUrl)}
+                  onClick={(event) => handleDeleteBtn(event, imgUrl.url)}
                   className="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-85 text-white text-lg duration-200 transition-all cursor-pointer active:opacity-100"
                 >
                   Delete
@@ -52,7 +65,7 @@ const ImageSection = () => {
           multiple
           {...register("imageFiles", {
             validate(val) {
-              const totalLenght = val.length + (existingImgUrls?.length || 0)
+              const totalLenght = val.length + (existingImgUrls?.length || 0);
               if (totalLenght === 0) {
                 return "At least one image is required";
               }

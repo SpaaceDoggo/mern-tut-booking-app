@@ -53,6 +53,7 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     try {
+      console.log("RESTRT")
       const error = validationResult(req);
       if (!error.isEmpty) {
         return res.status(400).json({
@@ -101,6 +102,7 @@ router.post(
 
 router.get("/get-hotels", verifyToken, async (req: Request, res: Response) => {
   try {
+    console.log("RESTRT")
     const myHotels = await Hotel.find({ userId: req.userId });
     res.json(myHotels);
   } catch (error) {

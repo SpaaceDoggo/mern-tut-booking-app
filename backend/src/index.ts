@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import userRoute from "./routes/user.js";
 import userAuth from "./routes/auth.js";
 import userHotels from './routes/my-hotel.js';
+import searchHotels from './routes/search-hotel.js'
 import cookieParser from "cookie-parser";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -16,13 +17,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET as string
 });
 
-mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string).then(() => {
-  console.log("Connected to database: ", process.env.MONGODB_CONNECTION_STRING);
-  console.log(process.env.CLOUDINARY_API_KEY)
-  console.log(process.env.CLOUDINARY_CLOUD_NAME)
-  console.log(process.env.CLOUDINARY_API_SECRET)
-});
-
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string)
 const __filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(__filename);
 
@@ -42,6 +37,7 @@ app.use(express.static(path.join(dirname, "../../frontend/dist")));
 app.use('/api/auth', userAuth);
 app.use('/api/user', userRoute);
 app.use('/api/my-hotels', userHotels);
+app.use('/api/search', searchHotels)
 
 app.get("/{*any}", (req, res) => {
   res.sendFile(path.join(dirname, "../../frontend/dist/index.html"));

@@ -19,3 +19,12 @@ export type HotelImage = {
     url: string,
     publicId: string
 }
+
+export type HotelPagination = {
+    data: HotelType[]
+    pagination:{
+        total:number
+        page:number
+        pages:number
+    }
+}
